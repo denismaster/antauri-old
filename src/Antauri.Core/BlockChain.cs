@@ -20,12 +20,21 @@ namespace Antauri.Core
 
         public Block LatestBlock => _blocks[_blocks.Count - 1];
 
-        public void addBlock(Block newBlock)
+        public void Add(Block newBlock)
         {
             if (IsValidNewBlock(newBlock, LatestBlock))
             {
                 _blocks.Add(newBlock);
             }
+        }
+
+        public Block MineBlock(String blockData)
+        {
+            Block previousBlock = LatestBlock;
+            int nextIndex = previousBlock.Index + 1;
+            long nextTimestamp = DateTime.Now.Millisecond;
+            String nextHash = CalculateHash(nextIndex, previousBlock.Hash, nextTimestamp, blockData);
+            return new Block(nextIndex, previousBlock.Hash, nextTimestamp, blockData, nextHash);
         }
 
         public bool IsValidNewBlock(Block newBlock, Block previousBlock)
