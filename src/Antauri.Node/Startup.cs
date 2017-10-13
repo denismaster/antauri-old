@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Antauri.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -24,6 +25,8 @@ namespace Antauri.Node
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddSingleton<BlockChain>();
+            services.AddSingleton<IHashProvider, SHA256HashProvider>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
