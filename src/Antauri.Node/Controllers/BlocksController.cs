@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Antauri.Core;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Antauri.Node.Controllers
 {
@@ -24,15 +25,19 @@ namespace Antauri.Node.Controllers
 
         // GET api/blocks/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            return Ok(_blockChain.Blocks.FirstOrDefault(b=>b.Index==id));
         }
 
         // POST api/blocks/mine
         [HttpPost("mine")]
         public void Post([FromBody]string value)
         {
+            Block newBlock = _blockChain.MineBlock(value);
+            _blockChain.Add(newBlock);
+            string s = JsonConvert.SerializeObject(newBlock);
+            Console.WriteLine("block added: " + s);
         }
     }
 }
