@@ -32,8 +32,11 @@ public class PeerToPeerService
 
     private Task Write(WebSocket socket, string message) => socket.SendStringAsync(message);  
 
-    public void ConnectToPeer() => throw new NotImplementedException();
-    
+    public void ConnectToPeer(string peer)
+    {
+        var socketClient = new ClientWebSocket();
+    }
+
     public async Task HandleMessage(WebSocket socket, string s)
     {
         try {
@@ -78,9 +81,27 @@ public class PeerToPeerService
         }
     }
 
-    private String QueryAllMessage() => throw new NotImplementedException();
+    private String QueryAllMessage()
+    {
+        return JsonConvert.SerializeObject(new Message(QUERY_ALL));
+    }
 
-    private string ResponseChainMessage() => throw new NotImplementedException();
+    private String QueryChainLengthMessage()
+    {
+        return JsonConvert.SerializeObject(new Message(QUERY_LATEST));
+    }
 
-    private string ResponseLatestMessage() => throw new NotImplementedException();
+    private string ResponseChainMessage() 
+    {
+        var chain = JsonConvert.SerializeObject(blockChain.Blocks);
+        var message = new Message(RESPONSE_BLOCKCHAIN, chain);
+        return JsonConvert.SerializeObject(message);  
+    }
+
+    private string ResponseLatestMessage()
+    {
+        Block[] blocks = {blockChain.LatestBlock};
+
+        return JsonConvert.SerializeObject(new Message(RESPONSE_BLOCKCHAIN, JsonConvert.SerializeObject(blocks)));
+    }
 }

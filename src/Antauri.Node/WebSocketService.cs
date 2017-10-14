@@ -9,9 +9,6 @@ using Microsoft.AspNetCore.Http;
 
 public class WebSocketService
 {
-    private const int QUERY_LATEST = 0;
-    private const int QUERY_ALL = 1;
-    private const int RESPONSE_BLOCKCHAIN = 2;
     private static ConcurrentDictionary<string, WebSocket> _sockets = new ConcurrentDictionary<string, WebSocket>();
  
     private readonly RequestDelegate _next;
