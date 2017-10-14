@@ -32,7 +32,7 @@ public class WebSocketService
  
         _sockets.TryAdd(socketId, currentSocket);
  
-        while (true)
+        while (currentSocket.State==WebSocketState.Open)
         {
             if (ct.IsCancellationRequested)
             {

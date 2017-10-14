@@ -27,6 +27,7 @@ namespace Antauri.Node
             services.AddMvc();
             services.AddSingleton<BlockChain>();
             services.AddSingleton<IHashProvider, SHA256HashProvider>();
+            services.AddSingleton<PeerToPeerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
