@@ -1,7 +1,7 @@
 public struct Message
 {
-    private int Type {get;set;}
-    private string Data {get;set;}
+    public int Type {get;set;}
+    public string Data {get;set;}
 
     public Message(int type)
     {
