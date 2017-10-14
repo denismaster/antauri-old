@@ -28,9 +28,12 @@ public class WebSocketService
  
         CancellationToken ct = context.RequestAborted;
         WebSocket currentSocket = await context.WebSockets.AcceptWebSocketAsync();
+        var p2pService = (PeerToPeerService) context.RequestServices.GetService(typeof(PeerToPeerService));
         var socketId = Guid.NewGuid().ToString();
  
         _sockets.TryAdd(socketId, currentSocket);
+
+        p2pService.AddPeer(currentSocket);
  
         while (currentSocket.State==WebSocketState.Open)
         {
@@ -49,16 +52,18 @@ public class WebSocketService
  
                 continue;
             }
+
+            await p2pService.HandleMessage(currentSocket,response);
  
-            foreach (var socket in _sockets)
-            {
-                if(socket.Value.State != WebSocketState.Open)
-                {
-                    continue;
-                }
- 
-                await socket.Value.SendStringAsync(response, ct);
-            }
+//             foreach (var socket in _sockets)
+//             {
+//                 if(socket.Value.State != WebSocketState.Open)
+//                 {
+//                     continue;
+//                 }
+//  
+//                 await socket.Value.SendStringAsync(response, ct);
+//             }
         }
  
         WebSocket dummy;

@@ -22,6 +22,12 @@ public class PeerToPeerService
         this.blockChain = blockChain ?? throw new System.ArgumentNullException(nameof(blockChain));
     }
 
+    public void AddPeer(WebSocket socket)
+    {
+         var socketId = Guid.NewGuid().ToString();
+        _sockets.TryAdd(socketId, socket);
+    }
+
     public async Task Broadcast(string message)
     {
         foreach(var socket in _sockets)
