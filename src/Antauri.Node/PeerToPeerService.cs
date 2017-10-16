@@ -3,6 +3,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.WebSockets;
+using System.Threading;
 using System.Threading.Tasks;
 using Antauri.Core;
 using Newtonsoft.Json;
@@ -24,31 +25,74 @@ public class PeerToPeerService
 
     public void AddPeer(WebSocket socket)
     {
-         var socketId = Guid.NewGuid().ToString();
+        var socketId = Guid.NewGuid().ToString();
         _sockets.TryAdd(socketId, socket);
     }
 
     public async Task Broadcast(string message)
     {
-        foreach(var socket in _sockets)
+        foreach (var socket in _sockets)
         {
             await this.Write(socket.Value, message);
         }
     }
 
-    private Task Write(WebSocket socket, string message) => socket.SendStringAsync(message);  
+    private Task Write(WebSocket socket, string message) => socket.SendStringAsync(message);
 
-    public void ConnectToPeer(string peer)
+    public async Task ConnectToPeer(string peer)
     {
-        var socketClient = new ClientWebSocket();
+        ClientWebSocket clientWebSocket = null;
+        try
+        {
+            clientWebSocket = new ClientWebSocket();
+            await clientWebSocket.ConnectAsync(new Uri(peer), CancellationToken.None);
+
+            await Write(clientWebSocket, QueryChainLengthMessage());
+            AddPeer(clientWebSocket);
+
+            CancellationToken cancelToken;
+            while (clientWebSocket.State == WebSocketState.Open)
+            {
+                if (cancelToken.IsCancellationRequested)
+                {
+                    break;
+                }
+
+                var response = await clientWebSocket.ReceiveStringAsync(cancelToken);
+                if (string.IsNullOrEmpty(response))
+                {
+                    if (clientWebSocket.State != WebSocketState.Open)
+                    {
+                        break;
+                    }
+
+                    continue;
+                }
+
+                await HandleMessage(clientWebSocket, response);
+            }
+        }
+        catch
+        {
+            Console.WriteLine("connection failed");
+        }
+        finally
+        {
+            if (clientWebSocket != null)
+            {
+                clientWebSocket.Dispose();
+            }
+        }
     }
 
     public async Task HandleMessage(WebSocket socket, string s)
     {
-        try {
+        try
+        {
             var message = JsonConvert.DeserializeObject<Message>(s);
             Console.WriteLine("Received message" + JsonConvert.SerializeObject(message));
-            switch (message.Type) {
+            switch (message.Type)
+            {
                 case QUERY_LATEST:
                     await Write(socket, ResponseLatestMessage());
                     break;
@@ -59,30 +103,41 @@ public class PeerToPeerService
                     await handleBlockChainResponse(message.Data);
                     break;
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             Console.WriteLine("hanle message is error:" + e.Message);
         }
     }
 
-    private async Task handleBlockChainResponse(string message) {
+    private async Task handleBlockChainResponse(string message)
+    {
         var receiveBlocks = JsonConvert.DeserializeObject<List<Block>>(message);
-        receiveBlocks.OrderBy(block=>block.Index);
+        receiveBlocks.OrderBy(block => block.Index);
 
         Block latestBlockReceived = receiveBlocks.Last();
         Block latestBlock = blockChain.LatestBlock;
 
-        if (latestBlockReceived.Index > latestBlock.Index) {
-            if (latestBlock.Hash==latestBlockReceived.PreviousHash) {
+        if (latestBlockReceived.Index > latestBlock.Index)
+        {
+            if (latestBlock.Hash == latestBlockReceived.PreviousHash)
+            {
                 Console.WriteLine("We can append the received block to our chain");
                 blockChain.Add(latestBlockReceived);
                 await Broadcast(ResponseLatestMessage());
-            } else if (receiveBlocks.Count == 1) {
+            }
+            else if (receiveBlocks.Count == 1)
+            {
                 Console.WriteLine("We have to query the chain from our peer");
                 await Broadcast(QueryAllMessage());
-            } else {
+            }
+            else
+            {
                 blockChain.ReplaceChain(receiveBlocks);
             }
-        } else {
+        }
+        else
+        {
             Console.WriteLine("received blockchain is not longer than received blockchain. Do nothing");
         }
     }
@@ -97,16 +152,16 @@ public class PeerToPeerService
         return JsonConvert.SerializeObject(new Message(QUERY_LATEST));
     }
 
-    private string ResponseChainMessage() 
+    private string ResponseChainMessage()
     {
         var chain = JsonConvert.SerializeObject(blockChain.Blocks);
         var message = new Message(RESPONSE_BLOCKCHAIN, chain);
-        return JsonConvert.SerializeObject(message);  
+        return JsonConvert.SerializeObject(message);
     }
 
     private string ResponseLatestMessage()
     {
-        Block[] blocks = {blockChain.LatestBlock};
+        Block[] blocks = { blockChain.LatestBlock };
 
         return JsonConvert.SerializeObject(new Message(RESPONSE_BLOCKCHAIN, JsonConvert.SerializeObject(blocks)));
     }
