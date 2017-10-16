@@ -7,13 +7,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-public class WebSocketService
+public class WebSocketMiddleware
 {
     private static ConcurrentDictionary<string, WebSocket> _sockets = new ConcurrentDictionary<string, WebSocket>();
  
     private readonly RequestDelegate _next;
  
-    public WebSocketService(RequestDelegate next)
+    public WebSocketMiddleware(RequestDelegate next)
     {
         _next = next;
     }

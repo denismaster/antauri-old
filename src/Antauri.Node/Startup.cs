@@ -34,7 +34,7 @@ namespace Antauri.Node
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseWebSockets();
-            app.UseMiddleware<WebSocketService>();
+            app.UseMiddleware<WebSocketMiddleware>();
 
             if (env.IsDevelopment())
             {
