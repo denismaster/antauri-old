@@ -52,18 +52,8 @@ public class WebSocketService
  
                 continue;
             }
-
+            
             await p2pService.HandleMessage(currentSocket,response);
- 
-//             foreach (var socket in _sockets)
-//             {
-//                 if(socket.Value.State != WebSocketState.Open)
-//                 {
-//                     continue;
-//                 }
-//  
-//                 await socket.Value.SendStringAsync(response, ct);
-//             }
         }
  
         WebSocket dummy;
