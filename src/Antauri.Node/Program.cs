@@ -17,9 +17,17 @@ namespace Antauri.Node
             BuildWebHost(args).Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
+        public static IWebHost BuildWebHost(string[] args) {
+            var config = new ConfigurationBuilder()
+                .AddCommandLine(args)
                 .Build();
+            
+            var port = config["port"] ?? "5000";
+
+            return WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .UseUrls($"http://localhost:{port}")
+                .Build();
+        }
     }
 }
