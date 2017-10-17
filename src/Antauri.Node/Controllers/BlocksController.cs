@@ -12,9 +12,11 @@ namespace Antauri.Node.Controllers
     public class BlocksController : Controller
     {
         private BlockChain _blockChain;
+        private readonly PeerToPeerService _p2PService;
 
-        public BlocksController(BlockChain blockChain){
-            this._blockChain = blockChain ?? throw new ArgumentNullException(nameof(blockChain));
+        public BlocksController(BlockChain blockChain, PeerToPeerService p2pService){
+            _blockChain = blockChain ?? throw new ArgumentNullException(nameof(blockChain));
+            _p2PService = p2pService ?? throw new ArgumentNullException(nameof(p2pService));
         }
         // GET api/blocks
         [HttpGet]
@@ -32,10 +34,11 @@ namespace Antauri.Node.Controllers
 
         // POST api/blocks/mine
         [HttpPost("mine")]
-        public void Post([FromBody]string value)
+        public async void Post([FromBody]string value)
         {
             Block newBlock = _blockChain.MineBlock(value);
             _blockChain.Add(newBlock);
+            await _p2PService.Broadcast(_p2PService.ResponseLatestMessage());
             string s = JsonConvert.SerializeObject(newBlock);
             Console.WriteLine("block added: " + s);
         }

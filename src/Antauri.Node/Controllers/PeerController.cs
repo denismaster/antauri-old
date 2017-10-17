@@ -21,7 +21,7 @@ namespace Antauri.Node.Controllers
         [HttpPost("add")]
         public IActionResult AddPeer([FromBody] string peer)
         {
-            _service.ConnectToPeer(peer).Wait();
+            _service.ConnectToPeer(peer);
             return Ok();
         }
     }

@@ -7,59 +7,60 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
-public class WebSocketMiddleware
+namespace Antauri.Node
 {
-    private static ConcurrentDictionary<string, WebSocket> _sockets = new ConcurrentDictionary<string, WebSocket>();
- 
-    private readonly RequestDelegate _next;
- 
-    public WebSocketMiddleware(RequestDelegate next)
+    public class WebSocketMiddleware
     {
-        _next = next;
-    }
- 
-    public async Task Invoke(HttpContext context)
-    {
-        if (!context.WebSockets.IsWebSocketRequest)
-        {
-            await _next.Invoke(context);
-            return;
-        }
- 
-        CancellationToken ct = context.RequestAborted;
-        WebSocket currentSocket = await context.WebSockets.AcceptWebSocketAsync();
-        var p2pService = (PeerToPeerService) context.RequestServices.GetService(typeof(PeerToPeerService));
-        var socketId = Guid.NewGuid().ToString();
- 
-        _sockets.TryAdd(socketId, currentSocket);
+        private static ConcurrentDictionary<string, WebSocket> _sockets = new ConcurrentDictionary<string, WebSocket>();
 
-        p2pService.AddPeer(currentSocket);
- 
-        while (currentSocket.State==WebSocketState.Open)
+        private readonly RequestDelegate _next;
+
+        public WebSocketMiddleware(RequestDelegate next)
         {
-            if (ct.IsCancellationRequested)
+            _next = next;
+        }
+
+        public async Task Invoke(HttpContext context)
+        {
+            if (!context.WebSockets.IsWebSocketRequest)
             {
-                break;
+                await _next.Invoke(context);
+                return;
             }
- 
-            var response = await currentSocket.ReceiveStringAsync(ct);
-            if(string.IsNullOrEmpty(response))
+
+            CancellationToken ct = context.RequestAborted;
+            WebSocket currentSocket = await context.WebSockets.AcceptWebSocketAsync();
+            var p2pService = (PeerToPeerService)context.RequestServices.GetService(typeof(PeerToPeerService));
+            var socketId = Guid.NewGuid().ToString();
+
+            _sockets.TryAdd(socketId, currentSocket);
+
+            while (currentSocket.State == WebSocketState.Open)
             {
-                if(currentSocket.State != WebSocketState.Open)
+                if (ct.IsCancellationRequested)
                 {
                     break;
                 }
- 
-                continue;
+
+                var response = await currentSocket.ReceiveStringAsync(ct);
+                if (string.IsNullOrEmpty(response))
+                {
+                    if (currentSocket.State != WebSocketState.Open)
+                    {
+                        break;
+                    }
+
+                    continue;
+                }
+
+                await p2pService.HandleMessage(currentSocket, response);
             }
-            
-            await p2pService.HandleMessage(currentSocket,response);
+
+            WebSocket dummy;
+            _sockets.TryRemove(socketId, out dummy);
+
+            await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", ct);
+            currentSocket.Dispose();
         }
- 
-        WebSocket dummy;
-        _sockets.TryRemove(socketId, out dummy);
- 
-        await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", ct);
-        currentSocket.Dispose();
     }
 }
