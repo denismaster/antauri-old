@@ -11,8 +11,6 @@ namespace Antauri.Node
 {
     public class WebSocketMiddleware
     {
-        private static ConcurrentDictionary<string, WebSocket> _sockets = new ConcurrentDictionary<string, WebSocket>();
-
         private readonly RequestDelegate _next;
 
         public WebSocketMiddleware(RequestDelegate next)
@@ -33,7 +31,7 @@ namespace Antauri.Node
             var p2pService = (PeerToPeerService)context.RequestServices.GetService(typeof(PeerToPeerService));
             var socketId = Guid.NewGuid().ToString();
 
-            _sockets.TryAdd(socketId, currentSocket);
+            p2pService.AddPeer(currentSocket);
 
             while (currentSocket.State == WebSocketState.Open)
             {
@@ -55,9 +53,6 @@ namespace Antauri.Node
 
                 await p2pService.HandleMessage(currentSocket, response);
             }
-
-            WebSocket dummy;
-            _sockets.TryRemove(socketId, out dummy);
 
             await currentSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closing", ct);
             currentSocket.Dispose();

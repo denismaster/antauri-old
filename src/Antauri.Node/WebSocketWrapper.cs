@@ -20,6 +20,8 @@ namespace Antauri.Node
         private Action<string, WebSocketWrapper> _onMessage;
         private Action<WebSocketWrapper> _onDisconnected;
 
+        public WebSocket WebSocket => _ws;
+
         protected WebSocketWrapper(string uri)
         {
             _ws = new ClientWebSocket();

@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Antauri.Core;
 using Newtonsoft.Json;
-using WebSocket = Antauri.Node.WebSocketWrapper;
+
 namespace Antauri.Node
 {
     public class PeerToPeerService
@@ -19,6 +19,8 @@ namespace Antauri.Node
         private readonly BlockChain blockChain;
 
         private static ConcurrentDictionary<string, WebSocket> _sockets = new ConcurrentDictionary<string, WebSocket>();
+
+        private static ConcurrentDictionary<string, WebSocketWrapper> _peers = new ConcurrentDictionary<string, WebSocketWrapper>();
 
         public PeerToPeerService(BlockChain blockChain)
         {
@@ -41,17 +43,16 @@ namespace Antauri.Node
 
         private Task Write(WebSocket socket, string message) => socket.SendStringAsync(message);
 
-        private Task Write(System.Net.WebSockets.WebSocket socket, string message) => socket.SendStringAsync(message);
-
         public void ConnectToPeer(string peer)
         {
             var socket = WebSocketWrapper.Create(peer);
             socket.OnMessage(async (message, ws)=>{
-                await HandleMessage(ws, message);
+                await HandleMessage(ws.WebSocket, message);
             });
             socket.OnConnect((ws)=>{
                 Console.WriteLine($"Conection established with {peer}");
-                _sockets.TryAdd(peer,ws);
+                _sockets.TryAdd(peer,ws.WebSocket);
+                _peers.TryAdd(peer,ws);
             });
             socket.OnDisconnect((ws)=>{
                 Console.WriteLine("Connection failed");
@@ -61,31 +62,6 @@ namespace Antauri.Node
         }
 
         public async Task HandleMessage(WebSocket socket, string s)
-        {
-            try
-            {
-                var message = JsonConvert.DeserializeObject<Message>(s);
-                Console.WriteLine("Received message" + JsonConvert.SerializeObject(message));
-                switch (message.Type)
-                {
-                    case QUERY_LATEST:
-                        await Write(socket, ResponseLatestMessage());
-                        break;
-                    case QUERY_ALL:
-                        await Write(socket, ResponseChainMessage());
-                        break;
-                    case RESPONSE_BLOCKCHAIN:
-                        await handleBlockChainResponse(message.Data);
-                        break;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("hanle message is error:" + e.Message);
-            }
-        }
-
-        public async Task HandleMessage(System.Net.WebSockets.WebSocket socket, string s)
         {
             try
             {
