@@ -1,15 +1,17 @@
 # Antauri
-.NET blockchain library
+:wrench: .NET Core blockchain toolkit :nut_and_bolt:
 
 [![Build Status](https://travis-ci.org/denismaster/antauri.svg?branch=master)](https://travis-ci.org/denismaster/antauri)
 
-## Install
+## :package: Install
 
 ```
 $ dotnet add package Antauri
 ```
 
-## Usage
+## :bulb: Usage
+
+Will be something like here
 
 ```csharp
 public void ConfigureServices(IServiceCollection services)
@@ -19,17 +21,17 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-## API
+## :book: API
 
 Here will be api
 
-## Team
+## :sunglasses: Team :beers:
 
 Here will be team
 
-## License
+## :unlock: License
 
-MIT © [Sindre Sorhus](https://sindresorhus.com)
+MIT © [denismaster](https://denismaster.github.io)
 
 
 
