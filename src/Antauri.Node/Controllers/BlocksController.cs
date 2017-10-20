@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Antauri.Core;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Antauri.Node.Controllers
@@ -13,10 +14,12 @@ namespace Antauri.Node.Controllers
     {
         private BlockChain _blockChain;
         private readonly PeerToPeerService _p2PService;
+        private readonly ILogger<BlocksController> _logger;
 
-        public BlocksController(BlockChain blockChain, PeerToPeerService p2pService){
+        public BlocksController(BlockChain blockChain, PeerToPeerService p2pService, ILogger<BlocksController> logger){
             _blockChain = blockChain ?? throw new ArgumentNullException(nameof(blockChain));
             _p2PService = p2pService ?? throw new ArgumentNullException(nameof(p2pService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
         // GET api/blocks
         [HttpGet]
@@ -40,7 +43,7 @@ namespace Antauri.Node.Controllers
             _blockChain.Add(newBlock);
             await _p2PService.Broadcast(_p2PService.ResponseLatestMessage());
             string s = JsonConvert.SerializeObject(newBlock);
-            Console.WriteLine("block added: " + s);
+            _logger.LogInformation("block added: " + s);
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Antauri.Core;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Antauri.Node
@@ -17,14 +18,15 @@ namespace Antauri.Node
         private const int RESPONSE_BLOCKCHAIN = 2;
 
         private readonly BlockChain blockChain;
-
+        private readonly ILogger<PeerToPeerService> logger;
         private static ConcurrentDictionary<string, WebSocket> _sockets = new ConcurrentDictionary<string, WebSocket>();
 
         private static ConcurrentDictionary<string, WebSocketWrapper> _peers = new ConcurrentDictionary<string, WebSocketWrapper>();
 
-        public PeerToPeerService(BlockChain blockChain)
+        public PeerToPeerService(BlockChain blockChain, ILogger<PeerToPeerService> logger)
         {
             this.blockChain = blockChain ?? throw new System.ArgumentNullException(nameof(blockChain));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public void AddPeer(WebSocket socket)
@@ -50,12 +52,12 @@ namespace Antauri.Node
                 await HandleMessage(ws.WebSocket, message);
             });
             socket.OnConnect((ws)=>{
-                Console.WriteLine($"Conection established with {peer}");
+                logger.LogInformation($"Conection established with {peer}");
                 _sockets.TryAdd(peer,ws.WebSocket);
                 _peers.TryAdd(peer,ws);
             });
             socket.OnDisconnect((ws)=>{
-                Console.WriteLine("Connection failed");
+                logger.LogWarning($"Conection failed with {peer}");
                 _sockets.TryRemove(peer, out WebSocket s);
             });
             socket.Connect();
@@ -66,7 +68,7 @@ namespace Antauri.Node
             try
             {
                 var message = JsonConvert.DeserializeObject<Message>(s);
-                Console.WriteLine("Received message" + JsonConvert.SerializeObject(message));
+                 logger.LogInformation("Received message" + JsonConvert.SerializeObject(message));
                 switch (message.Type)
                 {
                     case QUERY_LATEST:
@@ -82,7 +84,7 @@ namespace Antauri.Node
             }
             catch (Exception e)
             {
-                Console.WriteLine("hanle message is error:" + e.Message);
+                logger.LogError("hanle message is error:" + e.Message);
             }
         }
 
@@ -98,13 +100,13 @@ namespace Antauri.Node
             {
                 if (latestBlock.Hash == latestBlockReceived.PreviousHash)
                 {
-                    Console.WriteLine("We can append the received block to our chain");
+                    logger.LogInformation("We can append the received block to our chain");
                     blockChain.Add(latestBlockReceived);
                     await Broadcast(ResponseLatestMessage());
                 }
                 else if (receiveBlocks.Count == 1)
                 {
-                    Console.WriteLine("We have to query the chain from our peer");
+                    logger.LogInformation("We have to query the chain from our peer");
                     await Broadcast(QueryAllMessage());
                 }
                 else
@@ -114,7 +116,7 @@ namespace Antauri.Node
             }
             else
             {
-                Console.WriteLine("received blockchain is not longer than received blockchain. Do nothing");
+                logger.LogInformation("received blockchain is not longer than received blockchain. Do nothing");
             }
         }
 
