@@ -28,12 +28,12 @@ namespace Antauri.Core
             }
         }
 
-        public Block MineBlock(String blockData)
+        public Block MineBlock(string blockData)
         {
             Block previousBlock = LatestBlock;
             int nextIndex = previousBlock.Index + 1;
             long nextTimestamp = DateTime.Now.Millisecond;
-            String nextHash = CalculateHash(nextIndex, previousBlock.Hash, nextTimestamp, blockData);
+            string nextHash = CalculateHash(nextIndex, previousBlock.Hash, nextTimestamp, blockData);
             return new Block(nextIndex, previousBlock.Hash, nextTimestamp, blockData, nextHash);
         }
 
