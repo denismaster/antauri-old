@@ -30,8 +30,7 @@ Here will be api
 Here will be team
 
 ## :unlock: License
-
-MIT © [denismaster](https://denismaster.github.io)
+Apache 2.0 © [denismaster](https://denismaster.github.io)
 
 
 
