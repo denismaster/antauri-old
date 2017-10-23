@@ -14,11 +14,11 @@ namespace Antauri.Core
 
         public Block(int index,string previousHash, long timestamp,string data, string hash)
         {
-            this.Index = index;
-            this.PreviousHash = previousHash;
-            this.TimeStamp = timestamp;
-            this.Data = data;
-            this.Hash = hash;
+            Index = index;
+            PreviousHash = previousHash;
+            TimeStamp = timestamp;
+            Data = data;
+            Hash = hash;
         }
     }
 }
