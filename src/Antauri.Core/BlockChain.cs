@@ -28,15 +28,6 @@ namespace Antauri.Core
             }
         }
 
-        public Block MineBlock(string blockData)
-        {
-            Block previousBlock = LatestBlock;
-            int nextIndex = previousBlock.Index + 1;
-            long nextTimestamp = DateTime.Now.Millisecond;
-            string nextHash = CalculateHash(nextIndex, previousBlock.Hash, nextTimestamp, blockData);
-            return new Block(nextIndex, previousBlock.Hash, nextTimestamp, blockData, nextHash);
-        }
-
         public bool IsValidNewBlock(Block newBlock, Block previousBlock)
         {
             if (previousBlock.Index + 1 != newBlock.Index)
