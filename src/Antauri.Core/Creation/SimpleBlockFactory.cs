@@ -12,17 +12,19 @@ namespace Antauri.Core
             _hasher = hasher ?? throw new ArgumentNullException(nameof(hasher));
         }
 
-        private string CalculateHash(int index, string previousHash, long timestamp, string data)
-        {
-            var builder = new StringBuilder(index);
-            builder.Append(previousHash).Append(timestamp).Append(data);
-            return _hasher.Hash(builder.ToString());
-        }
         public Block CreateBlock(Block lastBlock, string data)
         {
             int nextIndex = lastBlock.Index + 1;
-            long nextTimestamp = DateTime.Now.Millisecond;
-            string nextHash = CalculateHash(nextIndex, lastBlock.Hash, nextTimestamp, data);
+            long nextTimestamp = DateTime.Now.Ticks;
+
+            var blockData = new BlockData<string>(){
+                Index = nextIndex,
+                PreviousHash = lastBlock.Hash,
+                TimeStamp = nextTimestamp,
+                Data = data
+            };
+
+            string nextHash = _hasher.Hash(blockData);
             return new Block(nextIndex, lastBlock.Hash, nextTimestamp, data, nextHash);
         }
     }
