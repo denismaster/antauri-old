@@ -1,7 +1,4 @@
-using System;
 using Xunit;
-using Antauri.Core;
-using Moq;
 
 namespace Antauri.Core.Tests
 {

@@ -75,7 +75,7 @@ namespace Antauri.Core
         private bool IsValidBlocks(List<Block> newBlocks)
         {
             Block firstBlock = newBlocks[0];
-            if (firstBlock.Equals(Block.GenesisBlock))
+            if (!firstBlock.Equals(Block.GenesisBlock))
             {
                 return false;
             }
