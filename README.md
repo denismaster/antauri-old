@@ -1,5 +1,9 @@
+<p align="center">
+  <img src="https://github.com/denismaster/antauri/blob/master/logo.png?raw=true"/>
+</p>
+ 
 # Antauri
-:wrench: .NET Core blockchain toolkit :nut_and_bolt:
+:wrench: Awesome .NET Core blockchain toolkit :nut_and_bolt: Create any blockchains easily with power of .NET Core 2.0 :muscle:
 
 [![Build Status](https://travis-ci.org/denismaster/antauri.svg?branch=master)](https://travis-ci.org/denismaster/antauri)
 
