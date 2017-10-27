@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Antauri.AspNetCore;
 
 namespace Antauri.Node
 {
@@ -25,10 +26,9 @@ namespace Antauri.Node
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddSingleton<BlockChain>();
-            services.AddSingleton<IHashProvider, SHA256HashProvider>();
-            services.AddSingleton<PeerToPeerService>();
+            services.AddAntauri();
             services.AddTransient<IBlockFactory, SimpleBlockFactory>();
+            services.AddSingleton<PeerToPeerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
