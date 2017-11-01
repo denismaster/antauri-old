@@ -6,12 +6,13 @@
 :wrench: Awesome .NET Core blockchain toolkit :nut_and_bolt: Create any blockchains easily with power of .NET Core 2.0 :muscle:
 
 [![Build Status](https://travis-ci.org/denismaster/antauri.svg?branch=master)](https://travis-ci.org/denismaster/antauri)
+[![NuGet Pre Release](https://img.shields.io/nuget/vpre/Microsoft.AspNet.Mvc.svg)](https://www.nuget.org/packages/Antauri.Core/0.1.0-alpha1)
 
 ## :package: Install
 
-```
-$ dotnet add package Antauri
-```
+| PackageManager | .NET CLI |
+|---|---|
+| `Install-Package Antauri.Core -Version 0.1.0-alpha1 ` | `dotnet add package Antauri.Core --version 0.1.0-alpha1`  |
 
 ## :bulb: Usage
 
