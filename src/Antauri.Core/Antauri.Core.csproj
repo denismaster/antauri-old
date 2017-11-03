@@ -2,6 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageVersion>0.1.0-alpha1</PackageVersion>
+    <Authors>denismaster</Authors>
+    <PackageProjectUrl>https://github.com/denismaster/antauri</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/denismaster/antauri</RepositoryUrl>
+    <Description>
+      Awesome .NET Core blockchain toolkit. Use it to create your owns blockchains easily.
+      Note, that this is a alpha version. A lot of things may not work or work bad. Please, fill issues on github and make pull requests.
+    </Description>
+    <Copyright>Copyright 2017 (c) denismaster. All rights reserved.</Copyright>
+    <PackageTags>blockchain</PackageTags>
   </PropertyGroup>
 
 </Project>
+
+
+
