@@ -35,7 +35,7 @@ namespace Antauri.Core
         {
             get
             {
-                return new BlockData()
+                return new BlockData<string>()
                 {
                     Data = this.Data,
                     Index = this.Index,
