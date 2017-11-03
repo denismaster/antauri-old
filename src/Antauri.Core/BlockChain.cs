@@ -42,8 +42,7 @@ namespace Antauri.Core
             }
             else
             {
-                string hash = CalculateHash(newBlock.Index, newBlock.PreviousHash, newBlock.TimeStamp,
-                        newBlock.Data);
+                string hash = _hasher.Hash(newBlock.BlockData);
                 if (hash != newBlock.Hash)
                 {
                     Console.WriteLine("invalid hash: " + hash + " " + newBlock.Hash);
@@ -51,13 +50,6 @@ namespace Antauri.Core
                 }
             }
             return true;
-        }
-
-        private string CalculateHash(int index, string previousHash, long timestamp, string data)
-        {
-            var builder = new StringBuilder(index);
-            builder.Append(previousHash).Append(timestamp).Append(data);
-            return _hasher.Hash(builder.ToString());
         }
 
         public void ReplaceChain(List<Block> newBlocks)
