@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Antauri.Core
 {
-    public class SimpleBlockFactory : IBlockFactory
+    public class SimpleBlockFactory<TData> : IBlockFactory<TData>
     {
         private readonly IHashProvider _hasher;
 
@@ -12,7 +12,7 @@ namespace Antauri.Core
             _hasher = hasher ?? throw new ArgumentNullException(nameof(hasher));
         }
 
-        public Block CreateBlock(Block lastBlock, string data)
+        public Block CreateBlock(Block lastBlock, TData data)
         {
             int nextIndex = lastBlock.Index + 1;
             long nextTimestamp = DateTime.Now.Ticks;
@@ -21,11 +21,11 @@ namespace Antauri.Core
                 Index = nextIndex,
                 PreviousHash = lastBlock.Hash,
                 TimeStamp = nextTimestamp,
-                Data = data
+                Data = data.ToString()
             };
 
             string nextHash = _hasher.Hash(blockData);
-            return new Block(nextIndex, lastBlock.Hash, nextTimestamp, data, nextHash);
+            return new Block(nextIndex, lastBlock.Hash, nextTimestamp, data.ToString(), nextHash);
         }
     }
 }

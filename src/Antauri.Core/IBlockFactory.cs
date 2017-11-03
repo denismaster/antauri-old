@@ -2,8 +2,8 @@ using System;
 
 namespace Antauri.Core
 {
-    public interface IBlockFactory
+    public interface IBlockFactory<TData>
     {
-        Block CreateBlock(Block lastBlock, string data);
+        Block CreateBlock(Block lastBlock, TData data);
     }
 }

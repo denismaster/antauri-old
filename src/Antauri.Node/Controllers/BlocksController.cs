@@ -15,12 +15,12 @@ namespace Antauri.Node.Controllers
         private BlockChain _blockChain;
         private readonly PeerToPeerService _p2PService;
         private readonly ILogger<BlocksController> _logger;
-        private readonly IBlockFactory _blockFactory;
+        private readonly IBlockFactory<string> _blockFactory;
 
         public BlocksController(BlockChain blockChain, 
         PeerToPeerService p2pService, 
         ILogger<BlocksController> logger,
-        IBlockFactory blockFactory
+        IBlockFactory<string> blockFactory
         ){
             _blockChain = blockChain ?? throw new ArgumentNullException(nameof(blockChain));
             _p2PService = p2pService ?? throw new ArgumentNullException(nameof(p2pService));
@@ -50,7 +50,7 @@ namespace Antauri.Node.Controllers
             _blockChain.Add(newBlock);
             await _p2PService.Broadcast(_p2PService.ResponseLatestMessage());
             string s = JsonConvert.SerializeObject(newBlock);
-            _logger.LogInformation("block added: " + s);
+            _logger.LogInformation("Block added: " + s);
         }
     }
 }

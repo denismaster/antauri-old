@@ -41,7 +41,7 @@ namespace Antauri.Core
                     Index = this.Index,
                     PreviousHash = this.PreviousHash,
                     TimeStamp = this.TimeStamp
-                }
+                };
             }
         }
     }

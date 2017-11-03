@@ -2,11 +2,11 @@ using System;
 
 namespace Antauri.Core
 {
-    public struct BlockData<T>
+    public struct BlockData<TData>
     {
         public int Index;
         public string PreviousHash;
         public long TimeStamp;
-        public T Data;
+        public TData Data;
     }
 }
