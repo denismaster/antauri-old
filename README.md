@@ -7,6 +7,7 @@
 
 [![Build Status](https://travis-ci.org/denismaster/antauri.svg?branch=master)](https://travis-ci.org/denismaster/antauri)
 [![NuGet Pre Release](https://img.shields.io/nuget/vpre/Antauri.Core.svg)](https://www.nuget.org/packages/Antauri.Core/0.1.0-alpha1)
+[![License](https://img.shields.io/badge/license-apache%202.0-60C060.svg)](https://github.com/denismaster/antauri/blob/master/LICENSE)
 
 ## :package: Install
 
