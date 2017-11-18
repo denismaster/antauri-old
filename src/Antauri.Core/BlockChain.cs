@@ -7,13 +7,21 @@ namespace Antauri.Core
     public class BlockChain
     {
         private List<Block> _blocks;
+        private Block _genesisBlock;
         private readonly IHashProvider _hasher;
 
-        public BlockChain(IHashProvider hasher)
+        public BlockChain(IHashProvider hasher, IBlockFactory<string> blockFactory)
         {
+            if (blockFactory == null)
+            {
+                throw new ArgumentNullException(nameof(blockFactory));
+            }
+
             _hasher = hasher ?? throw new ArgumentNullException(nameof(hasher));
 
-            _blocks = new List<Block>() { Block.GenesisBlock };
+            _genesisBlock = blockFactory.CreateGenesisBlock();
+            
+            _blocks = new List<Block>() { _genesisBlock };
         }
 
         public List<Block> Blocks => _blocks;
@@ -66,7 +74,7 @@ namespace Antauri.Core
         private bool IsValidBlocks(List<Block> newBlocks)
         {
             Block firstBlock = newBlocks[0];
-            if (!firstBlock.Equals(Block.GenesisBlock))
+            if (!firstBlock.Equals(_genesisBlock))
             {
                 return false;
             }

@@ -4,8 +4,6 @@ namespace Antauri.Core
 {
     public struct Block : IEquatable<Block>, IHashable
     {
-        public static Block GenesisBlock => new Block(0, "0", 1465154705, "Genesis Block", "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7");
-
         public int Index { get; private set; }
         public string PreviousHash { get; private set; }
         public long TimeStamp { get; private set; }
