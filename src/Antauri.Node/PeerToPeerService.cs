@@ -78,7 +78,7 @@ namespace Antauri.Node
                         await Write(socket, ResponseChainMessage());
                         break;
                     case RESPONSE_BLOCKCHAIN:
-                        await handleBlockChainResponse(message.Data);
+                        await HandleBlockChainResponse(message.Data);
                         break;
                 }
             }
@@ -88,7 +88,7 @@ namespace Antauri.Node
             }
         }
 
-        private async Task handleBlockChainResponse(string message)
+        private async Task HandleBlockChainResponse(string message)
         {
             var receiveBlocks = JsonConvert.DeserializeObject<List<Block>>(message);
             receiveBlocks.OrderBy(block => block.Index);
