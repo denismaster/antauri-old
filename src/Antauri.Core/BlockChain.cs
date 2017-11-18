@@ -42,10 +42,9 @@ namespace Antauri.Core
             }
             else
             {
-                string hash = _hasher.Hash(newBlock.BlockData);
-                if (hash != newBlock.Hash)
+                if (!_hasher.Verify(newBlock))
                 {
-                    Console.WriteLine("invalid hash: " + hash + " " + newBlock.Hash);
+                    Console.WriteLine("invalid hash: " + newBlock.Hash);
                     return false;
                 }
             }

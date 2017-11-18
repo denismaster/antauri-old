@@ -17,15 +17,11 @@ namespace Antauri.Core
             int nextIndex = lastBlock.Index + 1;
             long nextTimestamp = DateTime.Now.Ticks;
 
-            var blockData = new BlockData<string>(){
-                Index = nextIndex,
-                PreviousHash = lastBlock.Hash,
-                TimeStamp = nextTimestamp,
-                Data = data.ToString()
-            };
+            var block = new Block(nextIndex, lastBlock.Hash, nextTimestamp, data.ToString());
 
-            string nextHash = _hasher.Hash(blockData);
-            return new Block(nextIndex, lastBlock.Hash, nextTimestamp, data.ToString(), nextHash);
+            _hasher.Hash(block);
+
+            return block;
         }
     }
 }
