@@ -7,21 +7,12 @@ namespace Antauri.Core.Tests
         [Fact]
         public void GenesisBlockTest()
         {
-            var block = Block.GenesisBlock;
-
-            var blockData = new BlockData<string>()
-            {
-                Data = block.Data,
-                PreviousHash = block.PreviousHash,
-                Index = block.Index,
-                TimeStamp = block.TimeStamp
-            };
-
             IHashProvider hashProvider = new SHA256HashProvider();
+            IBlockFactory<string> blockFactory = new SimpleBlockFactory<string>(hashProvider);
 
-            string hash = hashProvider.Hash(blockData);
+            var genesisBlock = blockFactory.CreateGenesisBlock();
 
-            Assert.Equal(hash, block.Hash);
+            Assert.True(hashProvider.Verify(genesisBlock));
         }
     }
 }

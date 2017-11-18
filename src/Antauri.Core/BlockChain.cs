@@ -6,8 +6,8 @@ namespace Antauri.Core
 {
     public class BlockChain
     {
-        private List<Block> _blocks;
-        private Block _genesisBlock;
+        private List<SimpleBlock> _blocks;
+        private SimpleBlock _genesisBlock;
         private readonly IHashProvider _hasher;
 
         public BlockChain(IHashProvider hasher, IBlockFactory<string> blockFactory)
@@ -21,14 +21,14 @@ namespace Antauri.Core
 
             _genesisBlock = blockFactory.CreateGenesisBlock();
             
-            _blocks = new List<Block>() { _genesisBlock };
+            _blocks = new List<SimpleBlock>() { _genesisBlock };
         }
 
-        public List<Block> Blocks => _blocks;
+        public List<SimpleBlock> Blocks => _blocks;
 
-        public Block LatestBlock => _blocks[_blocks.Count - 1];
+        public SimpleBlock LatestBlock => _blocks[_blocks.Count - 1];
 
-        public void Add(Block newBlock)
+        public void Add(SimpleBlock newBlock)
         {
             if (IsValidNewBlock(newBlock, LatestBlock))
             {
@@ -36,7 +36,7 @@ namespace Antauri.Core
             }
         }
 
-        public bool IsValidNewBlock(Block newBlock, Block previousBlock)
+        public bool IsValidNewBlock(SimpleBlock newBlock, SimpleBlock previousBlock)
         {
             if (previousBlock.Index + 1 != newBlock.Index)
             {
@@ -59,7 +59,7 @@ namespace Antauri.Core
             return true;
         }
 
-        public void ReplaceChain(List<Block> newBlocks)
+        public void ReplaceChain(List<SimpleBlock> newBlocks)
         {
             if (IsValidBlocks(newBlocks) && newBlocks.Count > _blocks.Count)
             {
@@ -71,9 +71,9 @@ namespace Antauri.Core
             }
         }
 
-        private bool IsValidBlocks(List<Block> newBlocks)
+        private bool IsValidBlocks(List<SimpleBlock> newBlocks)
         {
-            Block firstBlock = newBlocks[0];
+            SimpleBlock firstBlock = newBlocks[0];
             if (!firstBlock.Equals(_genesisBlock))
             {
                 return false;

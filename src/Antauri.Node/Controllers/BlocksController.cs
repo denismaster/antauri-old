@@ -45,8 +45,8 @@ namespace Antauri.Node.Controllers
         [HttpPost("mine")]
         public async void Post([FromBody]string value)
         {
-            Block lastBlock = _blockChain.LatestBlock;
-            Block newBlock = _blockFactory.CreateBlock(lastBlock, value);
+            SimpleBlock lastBlock = _blockChain.LatestBlock;
+            SimpleBlock newBlock = _blockFactory.CreateBlock(lastBlock, value);
             _blockChain.Add(newBlock);
             await _p2PService.Broadcast(_p2PService.ResponseLatestMessage());
             string s = JsonConvert.SerializeObject(newBlock);

@@ -4,7 +4,7 @@ namespace Antauri.Core
 {
     public interface IBlockFactory<TData>
     {
-        Block CreateBlock(Block lastBlock, TData data);
-        Block CreateGenesisBlock();
+        SimpleBlock CreateBlock(SimpleBlock lastBlock, TData data);
+        SimpleBlock CreateGenesisBlock();
     }
 }

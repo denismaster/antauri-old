@@ -2,7 +2,7 @@
 
 namespace Antauri.Core
 {
-    public struct Block : IEquatable<Block>, IHashable
+    public class SimpleBlock : IEquatable<SimpleBlock>, IHashable
     {
         public int Index { get; private set; }
         public string PreviousHash { get; private set; }
@@ -10,7 +10,7 @@ namespace Antauri.Core
         public string Data { get; private set; }
         public string Hash { get; set; }
 
-        public Block(int index, string previousHash, long timestamp, string data, string hash = "")
+        public SimpleBlock(int index, string previousHash, long timestamp, string data, string hash = "")
         {
             Index = index;
             PreviousHash = previousHash;
@@ -19,7 +19,7 @@ namespace Antauri.Core
             Hash = hash;
         }
 
-        public bool Equals(Block other)
+        public bool Equals(SimpleBlock other)
         {
             var ret = Index == other.Index
                 && PreviousHash == other.PreviousHash
@@ -27,20 +27,6 @@ namespace Antauri.Core
                 && Data == other.Data
                 && Hash == other.Hash;
             return ret;
-        }
-
-        public BlockData<string> BlockData
-        {
-            get
-            {
-                return new BlockData<string>()
-                {
-                    Data = this.Data,
-                    Index = this.Index,
-                    PreviousHash = this.PreviousHash,
-                    TimeStamp = this.TimeStamp
-                };
-            }
         }
 
         public byte[] GetHashData()

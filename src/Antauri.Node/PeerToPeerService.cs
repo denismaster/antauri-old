@@ -90,11 +90,11 @@ namespace Antauri.Node
 
         private async Task HandleBlockChainResponse(string message)
         {
-            var receiveBlocks = JsonConvert.DeserializeObject<List<Block>>(message);
+            var receiveBlocks = JsonConvert.DeserializeObject<List<SimpleBlock>>(message);
             receiveBlocks.OrderBy(block => block.Index);
 
-            Block latestBlockReceived = receiveBlocks.Last();
-            Block latestBlock = blockChain.LatestBlock;
+            SimpleBlock latestBlockReceived = receiveBlocks.Last();
+            SimpleBlock latestBlock = blockChain.LatestBlock;
 
             if (latestBlockReceived.Index > latestBlock.Index)
             {
@@ -139,7 +139,7 @@ namespace Antauri.Node
 
         public string ResponseLatestMessage()
         {
-            Block[] blocks = { blockChain.LatestBlock };
+            SimpleBlock[] blocks = { blockChain.LatestBlock };
 
             return JsonConvert.SerializeObject(new Message(RESPONSE_BLOCKCHAIN, JsonConvert.SerializeObject(blocks)));
         }
