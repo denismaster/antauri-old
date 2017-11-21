@@ -7,6 +7,8 @@
         public THeader Header { get; set; }
         public TData Data { get; set; }
 
+        IBlockHeader IBlock.Header => Header;
+
         public virtual byte[] GetHashData()
         {
             var value = Header.PreviousHash + Header.Index + Header.TimeStamp + Data;
