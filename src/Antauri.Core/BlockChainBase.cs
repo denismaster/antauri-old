@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Antauri.Core
 {
-    public class BlockChainBase<TBlock> : IBlockChain<TBlock> where TBlock : IBlock
+    public class BlockChainBase<TBlock,TData> : IBlockChain<TBlock> where TBlock : IBasicBlock, IHasData<TData>
     {
         private List<TBlock> _blocks = new List<TBlock>();
         private readonly IHashProvider _hashProvider;
         private readonly TBlock _genesisBlock;
 
-        public BlockChainBase(IHashProvider hashProvider)
+        public BlockChainBase(IHashProvider hashProvider, IBlockFactory<TData> blockFactory)
         {
             _hashProvider = hashProvider;
         }
@@ -18,7 +18,7 @@ namespace Antauri.Core
 
         public TBlock LatestBlock => _blocks[_blocks.Count];
 
-        public void Add(TBlock newBlock)
+        public virtual void Add(TBlock newBlock)
         {
             if (IsValidNewBlock(newBlock, LatestBlock))
             {
@@ -26,7 +26,7 @@ namespace Antauri.Core
             }
         }
 
-        public bool IsValidNewBlock(TBlock newBlock, TBlock previousBlock)
+        public virtual bool IsValidNewBlock(TBlock newBlock, TBlock previousBlock)
         {
             if (previousBlock.Header.Index + 1 != newBlock.Header.Index)
             {
@@ -49,7 +49,7 @@ namespace Antauri.Core
             return true;
         }
 
-        public void ReplaceChain(List<TBlock> newBlocks)
+        public virtual void ReplaceChain(List<TBlock> newBlocks)
         {
             if (IsValidBlocks(newBlocks) && newBlocks.Count > _blocks.Count)
             {

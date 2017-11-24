@@ -12,11 +12,11 @@ namespace Antauri_WebExplorer.Controllers
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private BlockChain _blockChain;
+        private SimpleBlockChain _blockChain;
         private readonly ILogger<SampleDataController> _logger;
         private readonly IBlockFactory<SimpleBlock, string> _blockFactory;
 
-        public SampleDataController(BlockChain blockChain,
+        public SampleDataController(SimpleBlockChain blockChain,
         ILogger<SampleDataController> logger,
         IBlockFactory<SimpleBlock, string> blockFactory
         )

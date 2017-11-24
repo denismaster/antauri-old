@@ -17,13 +17,13 @@ namespace Antauri.Node
         private const int QUERY_ALL = 1;
         private const int RESPONSE_BLOCKCHAIN = 2;
 
-        private readonly BlockChain blockChain;
+        private readonly SimpleBlockChain blockChain;
         private readonly ILogger<PeerToPeerService> logger;
         private static ConcurrentDictionary<string, WebSocket> _sockets = new ConcurrentDictionary<string, WebSocket>();
 
         private static ConcurrentDictionary<string, WebSocketWrapper> _peers = new ConcurrentDictionary<string, WebSocketWrapper>();
 
-        public PeerToPeerService(BlockChain blockChain, ILogger<PeerToPeerService> logger)
+        public PeerToPeerService(SimpleBlockChain blockChain, ILogger<PeerToPeerService> logger)
         {
             this.blockChain = blockChain ?? throw new System.ArgumentNullException(nameof(blockChain));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));

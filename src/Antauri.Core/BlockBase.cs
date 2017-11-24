@@ -1,13 +1,13 @@
 ﻿namespace Antauri.Core
 {
-    public class BlockBase<THeader, TData>: IBlockBase<THeader,TData>
+    public class BlockBase<THeader, TData>: IBasicBlock<THeader>, IHasData<TData>
         where THeader: IBlockHeader
     {
         public string Hash { get; set; }
         public THeader Header { get; set; }
         public TData Data { get; set; }
 
-        IBlockHeader IBlock.Header => Header;
+        IBlockHeader IBasicBlock.Header => throw new System.NotImplementedException();
 
         public virtual byte[] GetHashData()
         {

@@ -3,7 +3,7 @@
 namespace Antauri.Core
 {
     public interface IBlockChain<TBlock>
-        where TBlock: IBlock
+        where TBlock: IBasicBlock
     {
         List<TBlock> Blocks { get; }
         TBlock LatestBlock { get; }

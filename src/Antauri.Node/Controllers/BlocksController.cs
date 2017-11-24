@@ -12,12 +12,12 @@ namespace Antauri.Node.Controllers
     [Route("api/blocks")]
     public class BlocksController : Controller
     {
-        private BlockChain _blockChain;
+        private SimpleBlockChain _blockChain;
         private readonly PeerToPeerService _p2PService;
         private readonly ILogger<BlocksController> _logger;
         private readonly IBlockFactory<SimpleBlock, string> _blockFactory;
 
-        public BlocksController(BlockChain blockChain, 
+        public BlocksController(SimpleBlockChain blockChain, 
         PeerToPeerService p2pService, 
         ILogger<BlocksController> logger,
         IBlockFactory<SimpleBlock, string> blockFactory

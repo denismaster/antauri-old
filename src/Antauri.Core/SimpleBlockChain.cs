@@ -4,13 +4,13 @@ using System.Text;
 
 namespace Antauri.Core
 {
-    public class BlockChain: IBlockChain<SimpleBlock>
+    public class SimpleBlockChain: IBlockchain<SimpleBlock>
     {
         private List<SimpleBlock> _blocks;
         private SimpleBlock _genesisBlock;
         private readonly IHashProvider _hasher;
 
-        public BlockChain(IHashProvider hasher, IBlockFactory<SimpleBlock,string> blockFactory)
+        public SimpleBlockChain(IHashProvider hasher, IBlockFactory<SimpleBlock,string> blockFactory)
         {
             if (blockFactory == null)
             {

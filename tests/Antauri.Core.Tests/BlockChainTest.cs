@@ -10,7 +10,7 @@ namespace Antauri.Core.Tests
             var hasher = new SHA256HashProvider();
             var factory = new SimpleBlockFactory(hasher);
 
-            var blockchain = new BlockChain(hasher, factory);
+            var blockchain = new SimpleBlockChain(hasher, factory);
 
             var genesisBlock = factory.CreateGenesisBlock();
 
