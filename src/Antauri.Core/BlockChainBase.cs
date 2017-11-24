@@ -3,16 +3,15 @@ using System.Collections.Generic;
 
 namespace Antauri.Core
 {
-    public class BlockChainBase<TBlock, THeader, TData> : IBlockChain<TBlock>
-        where TBlock : IBlock
+    public class BlockChainBase<TBlock> : IBlockChain<TBlock> where TBlock : IBlock
     {
         private List<TBlock> _blocks = new List<TBlock>();
-        private readonly IHashProvider _hasher;
+        private readonly IHashProvider _hashProvider;
         private readonly TBlock _genesisBlock;
 
-        public BlockChainBase(IHashProvider hasher)
+        public BlockChainBase(IHashProvider hashProvider)
         {
-            _hasher = hasher ?? throw new System.ArgumentNullException(nameof(hasher));
+            _hashProvider = hashProvider;
         }
 
         public List<TBlock> Blocks => _blocks;
@@ -41,7 +40,7 @@ namespace Antauri.Core
             }
             else
             {
-                if (!_hasher.Verify(newBlock))
+                if (!_hashProvider.Verify(newBlock))
                 {
                     Console.WriteLine("invalid hash: " + newBlock.Hash);
                     return false;
