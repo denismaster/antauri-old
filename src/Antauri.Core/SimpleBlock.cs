@@ -2,13 +2,20 @@
 
 namespace Antauri.Core
 {
-    public class SimpleBlock : IEquatable<SimpleBlock>, IHashable
+    public class SimpleBlock : IEquatable<SimpleBlock>, IHashable, IBlock
     {
         public int Index { get; private set; }
         public string PreviousHash { get; private set; }
         public long TimeStamp { get; private set; }
         public string Data { get; private set; }
         public string Hash { get; set; }
+
+        IBlockHeader IBlock.Header => new BlockHeader()
+        {
+            Index = Index,
+            PreviousHash = PreviousHash,
+            TimeStamp = TimeStamp
+        };
 
         public SimpleBlock(int index, string previousHash, long timestamp, string data, string hash = "")
         {

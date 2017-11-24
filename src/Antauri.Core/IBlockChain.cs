@@ -2,9 +2,8 @@
 
 namespace Antauri.Core
 {
-    public interface IBlockChain<TBlock, THeader, TData>
-        where TBlock: IBlockBase<THeader,TData>
-        where THeader: IBlockHeader
+    public interface IBlockChain<TBlock>
+        where TBlock: IBlock
     {
         List<TBlock> Blocks { get; }
         TBlock LatestBlock { get; }

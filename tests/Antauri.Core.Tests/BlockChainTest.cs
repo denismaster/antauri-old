@@ -8,7 +8,7 @@ namespace Antauri.Core.Tests
         public void IsValidNewBlockTest()
         {
             var hasher = new SHA256HashProvider();
-            var factory = new SimpleBlockFactory<string>(hasher);
+            var factory = new SimpleBlockFactory(hasher);
 
             var blockchain = new BlockChain(hasher, factory);
 

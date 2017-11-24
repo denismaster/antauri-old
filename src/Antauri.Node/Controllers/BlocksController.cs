@@ -15,12 +15,12 @@ namespace Antauri.Node.Controllers
         private BlockChain _blockChain;
         private readonly PeerToPeerService _p2PService;
         private readonly ILogger<BlocksController> _logger;
-        private readonly IBlockFactory<string> _blockFactory;
+        private readonly IBlockFactory<SimpleBlock, string> _blockFactory;
 
         public BlocksController(BlockChain blockChain, 
         PeerToPeerService p2pService, 
         ILogger<BlocksController> logger,
-        IBlockFactory<string> blockFactory
+        IBlockFactory<SimpleBlock, string> blockFactory
         ){
             _blockChain = blockChain ?? throw new ArgumentNullException(nameof(blockChain));
             _p2PService = p2pService ?? throw new ArgumentNullException(nameof(p2pService));

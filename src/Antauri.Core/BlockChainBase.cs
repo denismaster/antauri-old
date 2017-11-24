@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Antauri.Core
 {
-    public class BlockChainBase<TBlock, THeader, TData> : IBlockChain<TBlock, THeader, TData>
-        where TBlock : IBlockBase<THeader, TData>
-        where THeader : IBlockHeader
+    public class BlockChainBase<TBlock, THeader, TData> : IBlockChain<TBlock>
+        where TBlock : IBlock
     {
         private List<TBlock> _blocks = new List<TBlock>();
         private readonly IHashProvider _hasher;

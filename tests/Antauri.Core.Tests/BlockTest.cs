@@ -8,7 +8,7 @@ namespace Antauri.Core.Tests
         public void GenesisBlockTest()
         {
             IHashProvider hashProvider = new SHA256HashProvider();
-            IBlockFactory<string> blockFactory = new SimpleBlockFactory<string>(hashProvider);
+            IBlockFactory<SimpleBlock,string> blockFactory = new SimpleBlockFactory(hashProvider);
 
             var genesisBlock = blockFactory.CreateGenesisBlock();
 

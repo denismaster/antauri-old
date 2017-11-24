@@ -1,9 +1,13 @@
 ﻿namespace Antauri.Core
 {
-    public interface IBlockBase<THeader,TData> : IHashable
+    public interface IBlock: IHashable
+    {
+        IBlockHeader Header { get; }
+    }
+    public interface IBlockBase<THeader,TData> : IBlock
         where THeader : IBlockHeader
     {
-        THeader Header { get; }
+        new THeader Header { get; }
         TData Data { get; }
     }
 }
