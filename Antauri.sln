@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BE4F99A0-C2BB-4F3E-A81F-6B98D957A749}"
 EndProject
@@ -23,6 +23,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Networking", "Networking", "{39688C88-475F-4336-B09B-782832E2E771}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Antauri.Network.WebSockets", "src\Networking\Antauri.Network.WebSockets\Antauri.Network.WebSockets.csproj", "{407E42DE-508C-4FEC-B5C8-B37FCED63990}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Explorer", "Explorer", "{97AF9D7A-8456-45E5-9CF6-AF461C04CD4D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Antauri.WebExplorer", "src\Explorer\Antauri.WebExplorer\Antauri.WebExplorer.csproj", "{9675BB77-5084-4258-AA91-D16C5C260183}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -130,6 +134,18 @@ Global
 		{407E42DE-508C-4FEC-B5C8-B37FCED63990}.Release|x64.Build.0 = Release|Any CPU
 		{407E42DE-508C-4FEC-B5C8-B37FCED63990}.Release|x86.ActiveCfg = Release|Any CPU
 		{407E42DE-508C-4FEC-B5C8-B37FCED63990}.Release|x86.Build.0 = Release|Any CPU
+		{9675BB77-5084-4258-AA91-D16C5C260183}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9675BB77-5084-4258-AA91-D16C5C260183}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9675BB77-5084-4258-AA91-D16C5C260183}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9675BB77-5084-4258-AA91-D16C5C260183}.Debug|x64.Build.0 = Debug|Any CPU
+		{9675BB77-5084-4258-AA91-D16C5C260183}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9675BB77-5084-4258-AA91-D16C5C260183}.Debug|x86.Build.0 = Debug|Any CPU
+		{9675BB77-5084-4258-AA91-D16C5C260183}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9675BB77-5084-4258-AA91-D16C5C260183}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9675BB77-5084-4258-AA91-D16C5C260183}.Release|x64.ActiveCfg = Release|Any CPU
+		{9675BB77-5084-4258-AA91-D16C5C260183}.Release|x64.Build.0 = Release|Any CPU
+		{9675BB77-5084-4258-AA91-D16C5C260183}.Release|x86.ActiveCfg = Release|Any CPU
+		{9675BB77-5084-4258-AA91-D16C5C260183}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -144,6 +160,8 @@ Global
 		{CF512223-4F47-437C-AA7F-025351A66640} = {BE4F99A0-C2BB-4F3E-A81F-6B98D957A749}
 		{39688C88-475F-4336-B09B-782832E2E771} = {BE4F99A0-C2BB-4F3E-A81F-6B98D957A749}
 		{407E42DE-508C-4FEC-B5C8-B37FCED63990} = {39688C88-475F-4336-B09B-782832E2E771}
+		{97AF9D7A-8456-45E5-9CF6-AF461C04CD4D} = {BE4F99A0-C2BB-4F3E-A81F-6B98D957A749}
+		{9675BB77-5084-4258-AA91-D16C5C260183} = {97AF9D7A-8456-45E5-9CF6-AF461C04CD4D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD10E905-25BC-442D-BAE8-9AB317BA81AE}
