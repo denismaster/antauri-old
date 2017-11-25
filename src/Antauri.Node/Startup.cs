@@ -28,6 +28,7 @@ namespace Antauri.Node
             services.AddMvc();
             services.AddAntauri();
             services.AddTransient<IBlockFactory<SimpleBlock,string>, SimpleBlockFactory>();
+            services.AddTransient<IGenesisBlockFactory<SimpleBlock>, SimpleBlockFactory>();
             services.AddSingleton<PeerToPeerService>();
         }
 

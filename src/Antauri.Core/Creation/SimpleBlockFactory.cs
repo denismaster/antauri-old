@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Antauri.Core
 {
-    public class SimpleBlockFactory : IBlockFactory<SimpleBlock,string>
+    public class SimpleBlockFactory : IBlockFactory<SimpleBlock,string>, IGenesisBlockFactory<SimpleBlock>
     {
         private readonly IHashProvider _hasher;
 

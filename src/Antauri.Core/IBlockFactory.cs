@@ -8,9 +8,13 @@ namespace Antauri.Core
         SimpleBlock CreateGenesisBlock();
     }
 
+    public interface IGenesisBlockFactory<TBlock> where TBlock:IBasicBlock
+    {
+        TBlock CreateGenesisBlock();
+    }
+
     public interface IBlockFactory<TBlock,TData> where TBlock : IBasicBlock, IHasData<TData>
     {
         TBlock CreateBlock(TBlock lastBlock, TData data);
-        TBlock CreateGenesisBlock();
     }
 }

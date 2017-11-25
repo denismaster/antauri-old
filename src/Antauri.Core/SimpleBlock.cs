@@ -15,6 +15,12 @@ namespace Antauri.Core
             TimeStamp = timestamp;
             Data = data;
             Hash = hash;
+            Header = new BlockHeader()
+            {
+                Index = index,
+                PreviousHash = previousHash,
+                TimeStamp = timestamp
+            };
         }
 
         public bool Equals(SimpleBlock other)

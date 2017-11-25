@@ -7,7 +7,7 @@
         public THeader Header { get; set; }
         public TData Data { get; set; }
 
-        IBlockHeader IBasicBlock.Header => throw new System.NotImplementedException();
+        IBlockHeader IBasicBlock.Header => Header;
 
         public virtual byte[] GetHashData()
         {

@@ -10,7 +10,7 @@ namespace Antauri.Core
         private SimpleBlock _genesisBlock;
         private readonly IHashProvider _hasher;
 
-        public SimpleBlockChain(IHashProvider hasher, IBlockFactory<SimpleBlock,string> blockFactory)
+        public SimpleBlockChain(IHashProvider hasher, IGenesisBlockFactory<SimpleBlock> blockFactory)
         {
             if (blockFactory == null)
             {

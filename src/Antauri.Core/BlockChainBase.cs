@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Antauri.Core
 {
-    public class BlockChainBase<TBlock,TData> : IBlockChain<TBlock> where TBlock : IBasicBlock, IHasData<TData>
+    public class BlockChainBase<TBlock> : IBlockChain<TBlock> where TBlock : IBasicBlock
     {
         private List<TBlock> _blocks = new List<TBlock>();
         private readonly IHashProvider _hashProvider;
         private readonly TBlock _genesisBlock;
 
-        public BlockChainBase(IHashProvider hashProvider, IBlockFactory<TData> blockFactory)
+        public BlockChainBase(IHashProvider hashProvider, IGenesisBlockFactory<TBlock> blockFactory)
         {
             _hashProvider = hashProvider;
         }

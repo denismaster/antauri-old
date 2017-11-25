@@ -27,6 +27,7 @@ namespace Antauri_WebExplorer
             services.AddMvc();
             services.AddAntauri();
             services.AddTransient<IBlockFactory<SimpleBlock, string>, SimpleBlockFactory>();
+            services.AddTransient<IGenesisBlockFactory<SimpleBlock>, SimpleBlockFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
