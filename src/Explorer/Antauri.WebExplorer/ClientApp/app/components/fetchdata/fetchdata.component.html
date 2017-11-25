@@ -1,0 +1,28 @@
+<h1>Antauri blocks</h1>
+
+<p>Here we can see list of blocks</p>
+
+<p *ngIf="!forecasts"><em>Loading...</em></p>
+
+<div  *ngIf="forecasts">
+    <div class="panel panel-default" *ngFor="let forecast of forecasts">
+        <div class="panel-heading"> Block #{{ forecast.index}}</div>
+        <table class="table table-bordered">
+            <tr>
+                <td>Hash</td>
+                <td>{{forecast.hash}}</td>
+            </tr>
+            <tr>
+                <td>PreviousHash</td>
+                <td>{{ forecast.prevHash }}</td>
+            </tr>
+            <tr>
+                <td>TimeStamp</td>
+                <td>{{ forecast.timestamp }}</td>
+            </tr>
+        </table>
+        <div class="panel-body">
+            {{ forecast.data }} 
+        </div>
+    </div>
+</div>

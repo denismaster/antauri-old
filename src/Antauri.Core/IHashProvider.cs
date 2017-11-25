@@ -1,6 +1,15 @@
 using Antauri.Core;
 
-public interface IHashProvider
+namespace Antauri.Core
 {
-    string Hash<T>(BlockData<T> input);
+    public interface IHashable
+    {
+        string Hash { get; set; }
+        byte[] GetHashData();
+    }
+    public interface IHashProvider
+    {
+        void Hash(IHashable input);
+        bool Verify(IHashable input);
+    }
 }

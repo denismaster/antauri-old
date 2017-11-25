@@ -1,17 +1,16 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Antauri.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Antauri.Core;
 using Antauri.AspNetCore;
 
-namespace Antauri.Node
+namespace Antauri_WebExplorer
 {
     public class Startup
     {
@@ -27,23 +26,38 @@ namespace Antauri.Node
         {
             services.AddMvc();
             services.AddAntauri();
-            services.AddTransient<IBlockFactory<SimpleBlock,string>, SimpleBlockFactory>();
+            services.AddTransient<IBlockFactory<SimpleBlock, string>, SimpleBlockFactory>();
             services.AddTransient<IGenesisBlockFactory<SimpleBlock>, SimpleBlockFactory>();
-            services.AddSingleton<PeerToPeerService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseWebSockets();
-            app.UseMiddleware<WebSocketMiddleware>();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+                {
+                    HotModuleReplacement = true
+                });
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseMvc();
+            app.UseStaticFiles();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new { controller = "Home", action = "Index" });
+            });
         }
     }
 }

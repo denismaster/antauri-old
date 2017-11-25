@@ -4,23 +4,31 @@ using System.Text;
 
 namespace Antauri.Core
 {
-    public class BlockChain
+    public class SimpleBlockChain: IBlockchain<SimpleBlock>
     {
-        private List<Block> _blocks;
+        private List<SimpleBlock> _blocks;
+        private SimpleBlock _genesisBlock;
         private readonly IHashProvider _hasher;
 
-        public BlockChain(IHashProvider hasher)
+        public SimpleBlockChain(IHashProvider hasher, IGenesisBlockFactory<SimpleBlock> blockFactory)
         {
+            if (blockFactory == null)
+            {
+                throw new ArgumentNullException(nameof(blockFactory));
+            }
+
             _hasher = hasher ?? throw new ArgumentNullException(nameof(hasher));
 
-            _blocks = new List<Block>() { Block.GenesisBlock };
+            _genesisBlock = blockFactory.CreateGenesisBlock();
+            
+            _blocks = new List<SimpleBlock>() { _genesisBlock };
         }
 
-        public List<Block> Blocks => _blocks;
+        public List<SimpleBlock> Blocks => _blocks;
 
-        public Block LatestBlock => _blocks[_blocks.Count - 1];
+        public SimpleBlock LatestBlock => _blocks[_blocks.Count - 1];
 
-        public void Add(Block newBlock)
+        public void Add(SimpleBlock newBlock)
         {
             if (IsValidNewBlock(newBlock, LatestBlock))
             {
@@ -28,7 +36,7 @@ namespace Antauri.Core
             }
         }
 
-        public bool IsValidNewBlock(Block newBlock, Block previousBlock)
+        public bool IsValidNewBlock(SimpleBlock newBlock, SimpleBlock previousBlock)
         {
             if (previousBlock.Index + 1 != newBlock.Index)
             {
@@ -42,17 +50,16 @@ namespace Antauri.Core
             }
             else
             {
-                string hash = _hasher.Hash(newBlock.BlockData);
-                if (hash != newBlock.Hash)
+                if (!_hasher.Verify(newBlock))
                 {
-                    Console.WriteLine("invalid hash: " + hash + " " + newBlock.Hash);
+                    Console.WriteLine("invalid hash: " + newBlock.Hash);
                     return false;
                 }
             }
             return true;
         }
 
-        public void ReplaceChain(List<Block> newBlocks)
+        public void ReplaceChain(List<SimpleBlock> newBlocks)
         {
             if (IsValidBlocks(newBlocks) && newBlocks.Count > _blocks.Count)
             {
@@ -64,10 +71,10 @@ namespace Antauri.Core
             }
         }
 
-        private bool IsValidBlocks(List<Block> newBlocks)
+        private bool IsValidBlocks(List<SimpleBlock> newBlocks)
         {
-            Block firstBlock = newBlocks[0];
-            if (!firstBlock.Equals(Block.GenesisBlock))
+            SimpleBlock firstBlock = newBlocks[0];
+            if (!firstBlock.Equals(_genesisBlock))
             {
                 return false;
             }

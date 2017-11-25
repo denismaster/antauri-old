@@ -8,14 +8,16 @@ namespace Antauri.Core.Tests
         public void IsValidNewBlockTest()
         {
             var hasher = new SHA256HashProvider();
-            var blockchain = new BlockChain(hasher);
+            var factory = new SimpleBlockFactory(hasher);
 
-            var genesisBlock = Block.GenesisBlock;
+            var blockchain = new SimpleBlockChain(hasher, factory);
 
-            var blockWithBadIndex = new Block(0,"1",0,"new block","0");
+            var genesisBlock = factory.CreateGenesisBlock();
+
+            var blockWithBadIndex = new SimpleBlock(0,"1",0,"new block","0");
             Assert.False(blockchain.IsValidNewBlock(genesisBlock, blockWithBadIndex));
 
-            var blockWithBadHash = new Block(1,"1",0,"new block","0");
+            var blockWithBadHash = new SimpleBlock(1,"1",0,"new block","0");
             Assert.False(blockchain.IsValidNewBlock(genesisBlock, blockWithBadHash));
         }
     }

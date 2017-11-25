@@ -17,13 +17,13 @@ namespace Antauri.Node
         private const int QUERY_ALL = 1;
         private const int RESPONSE_BLOCKCHAIN = 2;
 
-        private readonly BlockChain blockChain;
+        private readonly SimpleBlockChain blockChain;
         private readonly ILogger<PeerToPeerService> logger;
         private static ConcurrentDictionary<string, WebSocket> _sockets = new ConcurrentDictionary<string, WebSocket>();
 
         private static ConcurrentDictionary<string, WebSocketWrapper> _peers = new ConcurrentDictionary<string, WebSocketWrapper>();
 
-        public PeerToPeerService(BlockChain blockChain, ILogger<PeerToPeerService> logger)
+        public PeerToPeerService(SimpleBlockChain blockChain, ILogger<PeerToPeerService> logger)
         {
             this.blockChain = blockChain ?? throw new System.ArgumentNullException(nameof(blockChain));
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -78,7 +78,7 @@ namespace Antauri.Node
                         await Write(socket, ResponseChainMessage());
                         break;
                     case RESPONSE_BLOCKCHAIN:
-                        await handleBlockChainResponse(message.Data);
+                        await HandleBlockChainResponse(message.Data);
                         break;
                 }
             }
@@ -88,13 +88,13 @@ namespace Antauri.Node
             }
         }
 
-        private async Task handleBlockChainResponse(string message)
+        private async Task HandleBlockChainResponse(string message)
         {
-            var receiveBlocks = JsonConvert.DeserializeObject<List<Block>>(message);
+            var receiveBlocks = JsonConvert.DeserializeObject<List<SimpleBlock>>(message);
             receiveBlocks.OrderBy(block => block.Index);
 
-            Block latestBlockReceived = receiveBlocks.Last();
-            Block latestBlock = blockChain.LatestBlock;
+            SimpleBlock latestBlockReceived = receiveBlocks.Last();
+            SimpleBlock latestBlock = blockChain.LatestBlock;
 
             if (latestBlockReceived.Index > latestBlock.Index)
             {
@@ -139,7 +139,7 @@ namespace Antauri.Node
 
         public string ResponseLatestMessage()
         {
-            Block[] blocks = { blockChain.LatestBlock };
+            SimpleBlock[] blocks = { blockChain.LatestBlock };
 
             return JsonConvert.SerializeObject(new Message(RESPONSE_BLOCKCHAIN, JsonConvert.SerializeObject(blocks)));
         }

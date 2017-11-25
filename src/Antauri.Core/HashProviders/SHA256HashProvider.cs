@@ -4,43 +4,33 @@ using Antauri.Core;
 
 public class SHA256HashProvider : IHashProvider
 {
-    public string Hash(string input)
+    public void Hash(IHashable input)
     {
         var builder = new StringBuilder();
 
         using (var hash = SHA256.Create())
         {
-            Encoding enc = Encoding.UTF8;
-            byte[] result = hash.ComputeHash(enc.GetBytes(input));
+            byte[] result = hash.ComputeHash(input.GetHashData());
 
             foreach (byte b in result)
                 builder.Append(b.ToString("x2"));
         }
 
-        return builder.ToString();
+        input.Hash = builder.ToString();
     }
 
-    public string Hash<T>(BlockData<T> blockData)
+    public bool Verify(IHashable input)
     {
         var builder = new StringBuilder();
 
-        var input = builder
-        .Append(blockData.PreviousHash)
-        .Append(blockData.TimeStamp)
-        .Append(blockData.Data)
-        .ToString();
-
-        builder.Clear();
-
         using (var hash = SHA256.Create())
         {
-            Encoding enc = Encoding.UTF8;
-            byte[] result = hash.ComputeHash(enc.GetBytes(input));
+            byte[] result = hash.ComputeHash(input.GetHashData());
 
             foreach (byte b in result)
                 builder.Append(b.ToString("x2"));
         }
 
-        return builder.ToString();
+        return builder.ToString() == input.Hash;
     }
 }
