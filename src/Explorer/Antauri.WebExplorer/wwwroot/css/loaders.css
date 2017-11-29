@@ -1,0 +1,143 @@
+﻿.cssload-container {
+	width: 100%;
+	height: 100%;
+  top:0;
+  left:0;
+  display:flex;
+  align-items: center;
+  justify-content: center; 
+	text-align: center;
+}
+
+.cssload-double-torus {
+	width: 41px;
+	height: 41px;
+	margin: 0 auto;
+	border: 3px double;
+	border-radius: 50%;
+	border-color: transparent rgba(0,0,0,0.9) rgba(0,0,0,0.9);
+	animation: cssload-spin 690ms infinite linear;
+		-o-animation: cssload-spin 690ms infinite linear;
+		-ms-animation: cssload-spin 690ms infinite linear;
+		-webkit-animation: cssload-spin 690ms infinite linear;
+		-moz-animation: cssload-spin 690ms infinite linear;
+}
+
+
+
+@keyframes cssload-spin {
+	100%{ transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-o-keyframes cssload-spin {
+	100%{ -o-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-ms-keyframes cssload-spin {
+	100%{ -ms-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-webkit-keyframes cssload-spin {
+	100%{ -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@-moz-keyframes cssload-spin {
+	100%{ -moz-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+
+.loader {
+  position: relative;
+  width: 44px;
+  height: 8px;
+  margin: 12px auto;
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: #ccc;
+  position: absolute;
+}
+
+.dot_1 {
+  animation: animateDot1 1.5s linear infinite;
+  left: 12px;
+  background: #e579b8;
+}
+
+.dot_2 {
+  animation: animateDot2 1.5s linear infinite;
+  animation-delay: 0.5s;
+  left: 24px;
+}
+
+.dot_3 {
+  animation: animateDot3 1.5s linear infinite;
+  left: 12px;
+}
+
+.dot_4 {
+  animation: animateDot4 1.5s linear infinite;
+  animation-delay: 0.5s;
+  left: 24px;
+}
+
+@keyframes animateDot1 {
+  0% {
+    transform: rotate(0deg) translateX(-12px);
+  }
+  25% {
+    transform: rotate(180deg) translateX(-12px);
+  }
+  75% {
+    transform: rotate(180deg) translateX(-12px);
+  }
+  100% {
+    transform: rotate(360deg) translateX(-12px);
+  }
+}
+@keyframes animateDot2 {
+  0% {
+    transform: rotate(0deg) translateX(-12px);
+  }
+  25% {
+    transform: rotate(-180deg) translateX(-12px);
+  }
+  75% {
+    transform: rotate(-180deg) translateX(-12px);
+  }
+  100% {
+    transform: rotate(-360deg) translateX(-12px);
+  }
+}
+@keyframes animateDot3 {
+  0% {
+    transform: rotate(0deg) translateX(12px);
+  }
+  25% {
+    transform: rotate(180deg) translateX(12px);
+  }
+  75% {
+    transform: rotate(180deg) translateX(12px);
+  }
+  100% {
+    transform: rotate(360deg) translateX(12px);
+  }
+}
+@keyframes animateDot4 {
+  0% {
+    transform: rotate(0deg) translateX(12px);
+  }
+  25% {
+    transform: rotate(-180deg) translateX(12px);
+  }
+  75% {
+    transform: rotate(-180deg) translateX(12px);
+  }
+  100% {
+    transform: rotate(-360deg) translateX(12px);
+  }
+}

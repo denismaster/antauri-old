@@ -13,32 +13,27 @@
         <ant-panel title="Blocks">
             <p *ngIf="!forecasts"><em>Loading...</em></p>
             <div  *ngIf="forecasts">
-                <div class="panel panel-default" *ngFor="let forecast of forecasts">
-                    <div class="panel-heading"> Block #{{ forecast.index}}</div>
-                    <table class="table block-table table-bordered">
-                        <tr>
-                            <td>Hash</td>
-                            <td>{{forecast.hash}}</td>
-                        </tr>
-                        <tr>
-                            <td>PreviousHash</td>
-                            <td>{{ forecast.prevHash }}</td>
-                        </tr>
-                        <tr>
-                            <td>TimeStamp</td>
-                            <td>{{ forecast.timestamp }}</td>
-                        </tr>
-                    </table>
-                    <div class="panel-body">
-                        {{ forecast.data }} 
-                    </div>
-                </div>
+                    <div class="list-group" *ngFor="let forecast of forecasts">
+                            <a class="list-group-item">
+                              <h4 class="list-group-item-heading">Block #{{ forecast.index}}</h4>
+                              <p class="list-group-item-text text-muted">{{forecast.hash}}</p>
+                            </a>
+                          </div>
             </div>       
         </ant-panel>
     </div>
     <div class="col-md-4">
         <ant-panel title="Transactions">
-            No transaction available
+                <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">In block</a></li>
+                        <li role="presentation"><a aria-controls="profile" role="tab" data-toggle="tab">Pending</a></li>
+                      </ul>
+                    
+                      <!-- Tab panes -->
+                      <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home">No Transactions available</div>
+                        <div role="tabpanel" class="tab-pane" id="profile">No Transactions available</div>
+                      </div>
         </ant-panel>
     </div>
 </div>
