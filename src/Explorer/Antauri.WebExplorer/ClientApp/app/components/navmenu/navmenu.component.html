@@ -1,5 +1,5 @@
 <div class='main-nav'>
-    <div class='navbar navbar-inverse'>
+    <div class='navbar navbar-default'>
         <div class='navbar-header'>
             <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
                 <span class='sr-only'>Toggle navigation</span>
@@ -9,7 +9,6 @@
             </button>
             <a class='navbar-brand' [routerLink]="['/home']">Antauri_WebExplorer</a>
         </div>
-        <div class='clearfix'></div>
         <div class='navbar-collapse collapse'>
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]="['link-active']">
@@ -20,6 +19,16 @@
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/fetch-data']">
                         <span class='glyphicon glyphicon-th-list'></span> Blocks
+                    </a>
+                </li>
+                <li [routerLinkActive]="['link-active']">
+                    <a [routerLink]="['/network']">
+                        <span class='glyphicon glyphicon-star'></span> Network
+                    </a>
+                </li>
+                <li [routerLinkActive]="['link-active']">
+                    <a [routerLink]="['/analytics']">
+                        <span class='glyphicon glyphicon-ok'></span> Analytics
                     </a>
                 </li>
             </ul>

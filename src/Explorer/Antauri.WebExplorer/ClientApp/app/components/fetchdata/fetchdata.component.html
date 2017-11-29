@@ -1,28 +1,45 @@
-<h1>Antauri blocks</h1>
-
-<p>Here we can see list of blocks</p>
-
-<p *ngIf="!forecasts"><em>Loading...</em></p>
-
-<div  *ngIf="forecasts">
-    <div class="panel panel-default" *ngFor="let forecast of forecasts">
-        <div class="panel-heading"> Block #{{ forecast.index}}</div>
-        <table class="table table-bordered">
-            <tr>
-                <td>Hash</td>
-                <td>{{forecast.hash}}</td>
-            </tr>
-            <tr>
-                <td>PreviousHash</td>
-                <td>{{ forecast.prevHash }}</td>
-            </tr>
-            <tr>
-                <td>TimeStamp</td>
-                <td>{{ forecast.timestamp }}</td>
-            </tr>
-        </table>
-        <div class="panel-body">
-            {{ forecast.data }} 
-        </div>
+<div class="row">
+    <div class="col-md-3">
+        <ant-panel title="Blockchain">
+            <div class="list-group">
+                <a class="list-group-item">
+                  <h4 class="list-group-item-heading">http://localhost:5000</h4>
+                  <p class="list-group-item-text">simple blockchain</p>
+                </a>
+              </div>
+        </ant-panel>
+    </div>
+    <div class="col-md-5">
+        <ant-panel title="Blocks">
+            <p *ngIf="!forecasts"><em>Loading...</em></p>
+            <div  *ngIf="forecasts">
+                <div class="panel panel-default" *ngFor="let forecast of forecasts">
+                    <div class="panel-heading"> Block #{{ forecast.index}}</div>
+                    <table class="table block-table table-bordered">
+                        <tr>
+                            <td>Hash</td>
+                            <td>{{forecast.hash}}</td>
+                        </tr>
+                        <tr>
+                            <td>PreviousHash</td>
+                            <td>{{ forecast.prevHash }}</td>
+                        </tr>
+                        <tr>
+                            <td>TimeStamp</td>
+                            <td>{{ forecast.timestamp }}</td>
+                        </tr>
+                    </table>
+                    <div class="panel-body">
+                        {{ forecast.data }} 
+                    </div>
+                </div>
+            </div>       
+        </ant-panel>
+    </div>
+    <div class="col-md-4">
+        <ant-panel title="Transactions">
+            No transaction available
+        </ant-panel>
     </div>
 </div>
+
