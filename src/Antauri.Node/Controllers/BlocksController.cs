@@ -6,6 +6,7 @@ using Antauri.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Antauri.Transactions;
 
 namespace Antauri.Node.Controllers
 {
@@ -15,12 +16,12 @@ namespace Antauri.Node.Controllers
         private SimpleBlockChain _blockChain;
         private readonly PeerToPeerService _p2PService;
         private readonly ILogger<BlocksController> _logger;
-        private readonly IBlockFactory<SimpleBlock, string> _blockFactory;
+        private readonly IBlockFactory<SimpleBlock, SimpleTransactionList> _blockFactory;
 
         public BlocksController(SimpleBlockChain blockChain, 
         PeerToPeerService p2pService, 
         ILogger<BlocksController> logger,
-        IBlockFactory<SimpleBlock, string> blockFactory
+        IBlockFactory<SimpleBlock, SimpleTransactionList> blockFactory
         ){
             _blockChain = blockChain ?? throw new ArgumentNullException(nameof(blockChain));
             _p2PService = p2pService ?? throw new ArgumentNullException(nameof(p2pService));
@@ -38,15 +39,17 @@ namespace Antauri.Node.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(_blockChain.Blocks.FirstOrDefault(b=>b.Index==id));
+            return Ok(_blockChain.Blocks.FirstOrDefault(b=>b.Header.Index==id));
         }
 
         // POST api/blocks/mine
         [HttpPost("mine")]
         public async void Post([FromBody]string value)
         {
+            var transaction = JsonConvert.DeserializeObject<SimpleTransaction>(value);
+            var transactionList = new SimpleTransactionList { transaction };
             SimpleBlock lastBlock = _blockChain.LatestBlock;
-            SimpleBlock newBlock = _blockFactory.CreateBlock(lastBlock, value);
+            SimpleBlock newBlock = _blockFactory.CreateBlock(lastBlock, transactionList);
             _blockChain.Add(newBlock);
             await _p2PService.Broadcast(_p2PService.ResponseLatestMessage());
             string s = JsonConvert.SerializeObject(newBlock);

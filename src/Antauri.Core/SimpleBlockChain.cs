@@ -38,12 +38,12 @@ namespace Antauri.Core
 
         public bool IsValidNewBlock(SimpleBlock newBlock, SimpleBlock previousBlock)
         {
-            if (previousBlock.Index + 1 != newBlock.Index)
+            if (previousBlock.Header.Index + 1 != newBlock.Header.Index)
             {
                 Console.WriteLine("invalid index");
                 return false;
             }
-            else if (previousBlock.Hash != newBlock.PreviousHash)
+            else if (previousBlock.Hash != newBlock.Header.PreviousHash)
             {
                 Console.WriteLine("invalid previoushash");
                 return false;

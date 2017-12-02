@@ -1,9 +1,10 @@
+using Antauri.Transactions;
 using System;
 using System.Text;
 
 namespace Antauri.Core
 {
-    public class SimpleBlockFactory : IBlockFactory<SimpleBlock,string>, IGenesisBlockFactory<SimpleBlock>
+    public class SimpleBlockFactory : IBlockFactory<SimpleBlock,SimpleTransactionList>, IGenesisBlockFactory<SimpleBlock>
     {
         private readonly IHashProvider _hasher;
 
@@ -12,9 +13,9 @@ namespace Antauri.Core
             _hasher = hasher ?? throw new ArgumentNullException(nameof(hasher));
         }
 
-        public SimpleBlock CreateBlock(SimpleBlock lastBlock, string data)
+        public SimpleBlock CreateBlock(SimpleBlock lastBlock, SimpleTransactionList data)
         {
-            int nextIndex = lastBlock.Index + 1;
+            long nextIndex = lastBlock.Header.Index + 1;
             long nextTimestamp = DateTimeOffset.Now.ToUnixTimeSeconds();
 
             var block = new SimpleBlock(nextIndex, lastBlock.Hash, nextTimestamp, data);
@@ -26,7 +27,16 @@ namespace Antauri.Core
 
         public SimpleBlock CreateGenesisBlock()
         {
-            var block =  new SimpleBlock(0, "0", 1465154705, "Genesis Block");
+            var transactions = new SimpleTransactionList
+            {
+                new SimpleTransaction()
+                {
+                    Sender = new Address(){ Value = "Satoshi"},
+                    Reciever = new Address(){ Value = "denismaster"},
+                    Amount = 25
+                }
+            };
+            var block =  new SimpleBlock(0, "0", 1465154705, transactions );
             _hasher.Hash(block);
             return block;
         }

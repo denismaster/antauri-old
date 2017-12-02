@@ -1,18 +1,12 @@
 ﻿using System;
+using Antauri.Transactions;
 
 namespace Antauri.Core
 {
-    public class SimpleBlock : BlockBase<BlockHeader,string>, IEquatable<SimpleBlock>
+    public class SimpleBlock : BlockBase<BlockHeader,SimpleTransactionList>, IEquatable<SimpleBlock>
     {
-        public int Index { get; private set; }
-        public string PreviousHash { get; private set; }
-        public long TimeStamp { get; private set; }
-
-        public SimpleBlock(int index, string previousHash, long timestamp, string data, string hash = "")
+        public SimpleBlock(long index, string previousHash, long timestamp, SimpleTransactionList data, string hash = "")
         {
-            Index = index;
-            PreviousHash = previousHash;
-            TimeStamp = timestamp;
             Data = data;
             Hash = hash;
             Header = new BlockHeader()
@@ -25,12 +19,21 @@ namespace Antauri.Core
 
         public bool Equals(SimpleBlock other)
         {
-            var ret = Index == other.Index
-                && PreviousHash == other.PreviousHash
-                && TimeStamp == other.TimeStamp
+            var ret = Header.Equals(other.Header)
                 && Data == other.Data
                 && Hash == other.Hash;
             return ret;
+        }
+
+        public override byte[] GetHashData()
+        {
+            var value = Header.PreviousHash + Header.Index + Header.TimeStamp;
+            var headerBytes =  System.Text.Encoding.UTF8.GetBytes(value);
+            var transactionBytes = Data.GetTransactionBytes();
+            var bytes = new System.Collections.Generic.List<byte>();
+            bytes.AddRange(headerBytes);
+            bytes.AddRange(transactionBytes);
+            return bytes.ToArray();
         }
     }
 }

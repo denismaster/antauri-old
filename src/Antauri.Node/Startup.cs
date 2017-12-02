@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Antauri.AspNetCore;
+using Antauri.Transactions;
 
 namespace Antauri.Node
 {
@@ -27,7 +28,7 @@ namespace Antauri.Node
         {
             services.AddMvc();
             services.AddAntauri();
-            services.AddTransient<IBlockFactory<SimpleBlock,string>, SimpleBlockFactory>();
+            services.AddTransient<IBlockFactory<SimpleBlock, SimpleTransactionList>, SimpleBlockFactory>();
             services.AddTransient<IGenesisBlockFactory<SimpleBlock>, SimpleBlockFactory>();
             services.AddSingleton<PeerToPeerService>();
         }

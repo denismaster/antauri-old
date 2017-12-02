@@ -91,14 +91,14 @@ namespace Antauri.Node
         private async Task HandleBlockChainResponse(string message)
         {
             var receiveBlocks = JsonConvert.DeserializeObject<List<SimpleBlock>>(message);
-            receiveBlocks.OrderBy(block => block.Index);
+            receiveBlocks.OrderBy(block => block.Header.Index);
 
             SimpleBlock latestBlockReceived = receiveBlocks.Last();
             SimpleBlock latestBlock = blockChain.LatestBlock;
 
-            if (latestBlockReceived.Index > latestBlock.Index)
+            if (latestBlockReceived.Header.Index > latestBlock.Header.Index)
             {
-                if (latestBlock.Hash == latestBlockReceived.PreviousHash)
+                if (latestBlock.Hash == latestBlockReceived.Header.PreviousHash)
                 {
                     logger.LogInformation("We can append the received block to our chain");
                     blockChain.Add(latestBlockReceived);

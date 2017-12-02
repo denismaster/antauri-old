@@ -3,7 +3,9 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <ProjectReference Include="..\Antauri.AspNetCore\Antauri.AspNetCore.csproj" />
+    <ProjectReference Include="..\Antauri.Core\Antauri.Core.csproj" />
+    <ProjectReference Include="..\Antauri.Transactions\Antauri.Transactions.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
@@ -13,7 +15,6 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Antauri.Core\Antauri.Core.csproj" />
-    <ProjectReference Include="..\Antauri.AspNetCore\Antauri.AspNetCore.csproj" />
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 </Project>

@@ -11,7 +11,14 @@ namespace Antauri.Core
 
         public BlockChainBase(IHashProvider hashProvider, IGenesisBlockFactory<TBlock> blockFactory)
         {
-            _hashProvider = hashProvider;
+            if (blockFactory == null)
+            {
+                throw new ArgumentNullException(nameof(blockFactory));
+            }
+
+            _hashProvider = hashProvider ?? throw new ArgumentNullException(nameof(hashProvider));
+
+            _genesisBlock = blockFactory.CreateGenesisBlock();
         }
 
         public List<TBlock> Blocks => _blocks;

@@ -14,6 +14,10 @@
     <PackageTags>blockchain</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Antauri.Transactions\Antauri.Transactions.csproj" />
+  </ItemGroup>
+
 </Project>
 
 
