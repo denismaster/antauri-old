@@ -51,7 +51,7 @@ If the text is not a suitable way to demonstrate the problem, please create a st
 ### Submitting a Pull Request (PR)
 Before you submit your Pull Request (PR) consider the following guidelines:
 
-* Search [GitHub](https://github.com/angular/angular/pulls) for an open or closed PR
+* Search [GitHub](https://github.com/denismaster/antauri/pulls) for an open or closed PR
   that relates to your submission. You don't want to duplicate effort.
 * Make your changes in a new git branch:
 
@@ -141,7 +141,7 @@ to read on GitHub as well as in various git tools.
 Footer should contain a [closing reference to an issue](https://help.github.com/articles/closing-issues-via-commit-messages/) if any.
 
 ```
-fix(release): fix critical bug on a production server
+fix(release): Fixed critical bug on a production server
 
 Fix #10500
 ```
@@ -168,10 +168,11 @@ The scope should be the name of the npm package affected (as perceived by person
 The following is the list of supported scopes:
 
 * **Core**
+* **Chain**
+* **Cryptography**
 * **Transactions**
-* **Networkings**
-* **Algorhitms**
-* **Hashing**
+* **Networking**
+* **Algorihtms**
 * **Contracts**
 
 
