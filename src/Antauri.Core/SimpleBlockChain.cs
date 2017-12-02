@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Antauri.Core
 {
-    public class SimpleBlockChain: IBlockchain<SimpleBlock>
+    public class SimpleBlockChain: IBlockChain<SimpleBlock>
     {
         private List<SimpleBlock> _blocks;
         private SimpleBlock _genesisBlock;
