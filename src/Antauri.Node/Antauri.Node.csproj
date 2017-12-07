@@ -15,5 +15,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Antauri.Core\Antauri.Core.csproj" />
     <ProjectReference Include="..\Antauri.AspNetCore\Antauri.AspNetCore.csproj" />
+    <ProjectReference Include="..\Antauri.Network\Antauri.Network.csproj" />
   </ItemGroup>
 </Project>
