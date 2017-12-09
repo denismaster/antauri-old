@@ -17,7 +17,11 @@ namespace Antauri.Core.Tests
             var blockWithBadIndex = new SimpleBlock(0,"1",0,"new block","0");
             Assert.False(blockchain.IsValidNewBlock(genesisBlock, blockWithBadIndex));
 
-            var blockWithBadHash = new SimpleBlock(1,"1",0,"new block","0");
+            var blockWithBadHash = new SimpleBlock(1,"1",0,"new block","VERY BAD HASH");
+            Assert.False(blockchain.IsValidNewBlock(genesisBlock, blockWithBadHash));
+
+            var validBlock = new SimpleBlock(2, "2", 0, "new block");
+            hasher.Hash(validBlock);
             Assert.False(blockchain.IsValidNewBlock(genesisBlock, blockWithBadHash));
         }
     }
