@@ -7,3 +7,4 @@ before_script:
   - dotnet restore
 script:  
   - dotnet build ./src/Antauri.Node -c Release -f netcoreapp2.0
+  - dotnet test ./tests/Antauri.Core.Tests -c Release -f netcoreapp2.0
